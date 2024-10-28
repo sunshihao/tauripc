@@ -9,6 +9,15 @@ async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
 }
+
+async function startShinev() {
+  invoke("run", { name: name.value });
+}
+
+async function stopShine(){
+  
+}
+
 </script>
 
 <template>
@@ -33,6 +42,11 @@ async function greet() {
       <button type="submit">Greet</button>
     </form>
     <p>{{ greetMsg }}</p>
+
+    <div @click="startShine">托盘闪烁</div>
+
+    <div @click="stopShine">关闭托盘闪烁</div>
+    <!-- <Msg /> -->
   </main>
 </template>
 
@@ -44,7 +58,6 @@ async function greet() {
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #249b73);
 }
-
 </style>
 <style>
 :root {
@@ -156,5 +169,4 @@ button {
     background-color: #0f0f0f69;
   }
 }
-
 </style>

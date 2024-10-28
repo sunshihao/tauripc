@@ -9,7 +9,9 @@
     "beforeBuildCommand": "pnpm build",
     "frontendDist": "../dist"
   },
+ 
   "app": {
+    
     "windows": [
       {
         "title": "xjjt",
@@ -24,6 +26,9 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "resources": [
+      "tray"
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
