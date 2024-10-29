@@ -5,6 +5,9 @@
 	import { TrayIcon } from '@tauri-apps/api/tray'
 	import { invoke } from '@tauri-apps/api/core'
 
+    import { Menu } from '@tauri-apps/api/menu';
+
+
     const logged = true
 
     const handleMainShow = async () => {
