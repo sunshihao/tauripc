@@ -1,30 +1,40 @@
-use std::sync::Arc;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, TrayIconBuilder, TrayIconEvent},
     Emitter, Manager, Runtime,
 };
 
+// 托盘菜单定义设置
 pub fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
-    let quit_st = MenuItem::with_id(app, "start", "开启闪烁", true, None::<&str>)?;
-    let quit_sp = MenuItem::with_id(app, "stop", "关闭闪烁", true, None::<&str>)?;
-    let menu = Menu::with_items(app, &[&quit_st, &quit_sp])?;
-
-    // 状态控制
-    let flashing = Arc::new(AtomicBool::new(false));
-    let flashing_handle = flashing.clone();
-
+    let quit_st = MenuItem::with_id(app, "trun_on_flashing", "开启闪烁", true, None::<&str>)?;
+    let quit_sp = MenuItem::with_id(app, "trun_off_flashing", "关闭闪烁", true, None::<&str>)?;
+    let quit_sw = MenuItem::with_id(app, "show", "显示", true, None::<&str>)?;
+    let quit_he = MenuItem::with_id(app, "hide", "隐藏", true, None::<&str>)?;
+    let quit_qe = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
+    let menu = Menu::with_items(app, &[&quit_st, &quit_sp, &quit_sw, &quit_he, &quit_qe])?;
     // 创建托盘图标
     let _ = TrayIconBuilder::with_id("tray")
         .menu(&menu)
         .tooltip("tauri")
         // 托盘图标
         .icon(app.default_window_icon().unwrap().clone())
-        .on_menu_event(|_app, event| match event.id.as_ref() {
+        .on_menu_event(move |app, event| match event.id.as_ref() {
             "quit" => {
-                println!("quit menu item was clicked", _app);
-                // app.exit(0);
-
+                app.exit(0);
+            }
+            "show" => {
+                let window = app.get_webview_window("main").unwrap();
+                let _ = window.show();
+            }
+            "hide" => {
+                let window = app.get_webview_window("main").unwrap();
+                let _ = window.hide();
+            }
+            "trun_on_flashing" => {
+                println!("trun_on_flashing");
+            }
+            "trun_off_flashing" => {
+                println!("trun_off_flashing");
             }
             _ => {
                 println!("menu item {:?} not handled", event.id);
