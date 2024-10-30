@@ -9,9 +9,7 @@
     "beforeBuildCommand": "pnpm build",
     "frontendDist": "../dist"
   },
- 
   "app": {
-    
     "windows": [
       {
         "title": "金投",
@@ -26,9 +24,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "resources": [
-      "tray"
-    ],
+    "resources": ["tray"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

@@ -10,12 +10,12 @@ export let messageBoxWindowHeight = 100;
 
 // 闪烁通知
 export async function CreateMsgBox() {
-  const appWindow = new Window("msgbox");
+  // const appWindow = new Window("msgbox");
 
   console.log("start create msgbox...");
 
   let webview = new WebviewWindow("msgbox", {
-    url: "http://localhost:1420/#/msg",
+    url: "/#/msg",
     title: "消息通知",
     width: messageBoxWindowWidth,
     height: messageBoxWindowHeight,

@@ -3,7 +3,7 @@
 	import { ref } from 'vue'
 	import { WebviewWindow } from "@tauri-apps/api/webviewWindow"
 	import { TrayIcon } from '@tauri-apps/api/tray'
-	import { invoke } from '@tauri-apps/api/core'
+	// import { invoke } from '@tauri-apps/api/core'
 
     // import { Menu } from '@tauri-apps/api/menu';
 

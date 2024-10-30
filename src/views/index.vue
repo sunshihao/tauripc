@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import { CreateMsgBox } from "./Msg/msg";
 import { CreateTraymenu } from "./Menu/menu";
-import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { TrayIcon } from "@tauri-apps/api/tray";
 
 const greetMsg = ref("");
@@ -43,6 +42,7 @@ const flashTray = async (bool) => {
 onMounted(() => {
   // 托盘右键菜单创建
   CreateTraymenu();
+  CreateMsgBox();
 });
 </script>
 
@@ -69,7 +69,7 @@ onMounted(() => {
     </form>
     <p>{{ greetMsg }}</p>
 
-    <div @click="CreateMsgBox">模拟接收消息</div>
+    <!-- <div @click="CreateMsgBox">模拟接收消息</div> -->
 
     <div @click="flashTray(true)">托盘闪烁</div>
 
