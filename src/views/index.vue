@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import { CreateMsgBox } from "./Msg/msg";
+import { CreateTraymenu } from "./Menu/menu";
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+import { TrayIcon } from "@tauri-apps/api/tray";
 
 const greetMsg = ref("");
 const name = ref("");
@@ -10,6 +13,37 @@ async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   greetMsg.value = await invoke("greet", { name: name.value });
 }
+
+const flashTimer = ref(false);
+const flashTray = async (bool) => {
+  let flag = true;
+  if (bool) {
+    TrayIcon.getById("tray").then(async (res) => {
+      clearInterval(flashTimer.value);
+      flashTimer.value = setInterval(() => {
+        if (flag) {
+          res.setIcon(null);
+        } else {
+          // res.setIcon(defaultIcon)
+          // 支持把自定义图标放在默认icons文件夹，通过如下方式设置图标
+          // res.setIcon('icons/msg.png')
+          // 支持把自定义图标放在自定义文件夹tray，需要配置tauri.conf.json参数 "bundle": {"resources": ["tray"]}
+          res.setIcon("tray/msg.png");
+        }
+        flag = !flag;
+      }, 500);
+    });
+  } else {
+    clearInterval(flashTimer.value);
+    let tray = await TrayIcon.getById("tray");
+    tray.setIcon("icons/icon.png");
+  }
+};
+
+onMounted(() => {
+  // 托盘右键菜单创建
+  CreateTraymenu();
+});
 </script>
 
 <template>
@@ -35,11 +69,11 @@ async function greet() {
     </form>
     <p>{{ greetMsg }}</p>
 
-    <div @click="CreateMsgBox">模拟消息</div>
+    <div @click="CreateMsgBox">模拟接收消息</div>
 
-    <div @click="startShine">托盘闪烁</div>
+    <div @click="flashTray(true)">托盘闪烁</div>
 
-    <div @click="stopShine">关闭托盘闪烁</div>
+    <div @click="flashTray(false)">关闭托盘闪烁</div>
     <!-- <Msg /> -->
   </main>
 </template>

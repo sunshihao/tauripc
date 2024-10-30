@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "xjjt",
+  "productName": "金投",
   "version": "0.1.0",
   "identifier": "com.xjjt.app",
   "build": {
@@ -14,9 +14,9 @@
     
     "windows": [
       {
-        "title": "xjjt",
-        "width": 800,
-        "height": 600
+        "title": "金投",
+        "width": 1000,
+        "height": 800
       }
     ],
     "security": {

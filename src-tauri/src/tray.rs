@@ -31,63 +31,63 @@ pub fn create_tray<R: tauri::Runtime>(app: &tauri::AppHandle<R>) -> tauri::Resul
         // .menu(&menu)
         .tooltip("tauri")
         .icon(app.default_window_icon().unwrap().clone())
-        .on_menu_event(move |app, event| {
-            match event.id.as_ref() {
-                "quit" => {
-                    app.exit(0);
-                }
-                "show" => {
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.show();
-                    }
-                }
-                "hide" => {
-                    if let Some(window) = app.get_webview_window("main") {
-                        let _ = window.hide();
-                    }
-                }
-                "trun_on_flashing" => {
-                    // _tray.set_icon("tray/msg.png").unwrap();
-                    // {
-                    //     tray_handler::flash_tray(true); // 开始闪烁图标
-                    // }
-                    // tray::set_icon("tray/msg.png").unwrap();
-                }
-                "trun_off_flashing" => {
-                    // tray.set_icon("tray/msg.png").unwrap();
-                    // tray_handler.flash_tray(false); // 停止闪烁图标
-                }
-                _ => {
-                    println!("menu item {:?} not handled", event.id);
-                }
-            }
-        })
-        .on_tray_icon_event(|tray, event| match event {
-            tauri::tray::TrayIconEvent::Click {
-                id: _,
-                position,
-                button,
-                ..
-            } => match button {
-                tauri::tray::MouseButton::Left => {
-                    println!("Left click");
-                }
-                tauri::tray::MouseButton::Right => {
-                    println!("Right click");
-                    tray.app_handle()
-                        .emit("tray_contextmenu", position)
-                        .unwrap();
-                }
-                _ => {}
-            },
-            tauri::tray::TrayIconEvent::Enter { position, .. } => {
-                tray.app_handle().emit("tray_mouseenter", position).unwrap();
-            }
-            tauri::tray::TrayIconEvent::Leave { position, .. } => {
-                tray.app_handle().emit("tray_mouseleave", position).unwrap();
-            }
-            _ => {}
-        })
+        // .on_menu_event(move |app, event| {
+        //     match event.id.as_ref() {
+        //         "quit" => {
+        //             app.exit(0);
+        //         }
+        //         "show" => {
+        //             if let Some(window) = app.get_webview_window("main") {
+        //                 let _ = window.show();
+        //             }
+        //         }
+        //         "hide" => {
+        //             if let Some(window) = app.get_webview_window("main") {
+        //                 let _ = window.hide();
+        //             }
+        //         }
+        //         "trun_on_flashing" => {
+        //             // _tray.set_icon("tray/msg.png").unwrap();
+        //             // {
+        //             //     tray_handler::flash_tray(true); // 开始闪烁图标
+        //             // }
+        //             // tray::set_icon("tray/msg.png").unwrap();
+        //         }
+        //         "trun_off_flashing" => {
+        //             // tray.set_icon("tray/msg.png").unwrap();
+        //             // tray_handler.flash_tray(false); // 停止闪烁图标
+        //         }
+        //         _ => {
+        //             println!("menu item {:?} not handled", event.id);
+        //         }
+        //     }
+        // })
+        // .on_tray_icon_event(|tray, event| match event {
+        //     tauri::tray::TrayIconEvent::Click {
+        //         id: _,
+        //         position,
+        //         button,
+        //         ..
+        //     } => match button {
+        //         tauri::tray::MouseButton::Left => {
+        //             println!("Left click");
+        //         }
+        //         tauri::tray::MouseButton::Right => {
+        //             println!("Right click");
+        //             tray.app_handle()
+        //                 .emit("tray_contextmenu", position)
+        //                 .unwrap();
+        //         }
+        //         _ => {}
+        //     },
+        //     tauri::tray::TrayIconEvent::Enter { position, .. } => {
+        //         tray.app_handle().emit("tray_mouseenter", position).unwrap();
+        //     }
+        //     tauri::tray::TrayIconEvent::Leave { position, .. } => {
+        //         tray.app_handle().emit("tray_mouseleave", position).unwrap();
+        //     }
+        //     _ => {}
+        // })
         .build(app)?;
 
     Ok(())

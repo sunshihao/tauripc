@@ -2,15 +2,16 @@ import { ref } from 'vue'
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { emit, listen } from '@tauri-apps/api/event'
 import { LogicalPosition } from '@tauri-apps/api/window'
-import { TrayIcon } from '@tauri-apps/api/tray'
-import { invoke } from '@tauri-apps/api/core'
 
 export let menuBoxWindowWidth = 150
 export let menuBoxWindowHeight = JSON.parse(localStorage.getItem('logged')) ? 320 : 45
 
-export default async function CreateTraymenu() {
+export async function CreateTraymenu() {
+
+    console.log('---------------')
+
     let webview = new WebviewWindow("traymenu", {
-        url: "/menu",
+        url: "http://localhost:1420/#/menu",
         title: "通知提醒",
         width: menuBoxWindowWidth,
         height: menuBoxWindowHeight,
@@ -40,6 +41,9 @@ export default async function CreateTraymenu() {
 
     // 监听托盘右键菜单事件
     let trayEnterListen = listen('tray_contextmenu', async (event) => {
+
+        console.log('托盘图标右键点击')
+
         const win = await WebviewWindow.getByLabel('traymenu')
         if(!win) return
 

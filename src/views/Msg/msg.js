@@ -1,6 +1,6 @@
-// import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Webview } from "@tauri-apps/api/webview";
-import { Window } from "@tauri-apps/api/window"
+import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
+// import { Webview } from "@tauri-apps/api/webview";
+import { Window } from "@tauri-apps/api/window";
 
 import { emit, listen } from "@tauri-apps/api/event";
 import { LogicalPosition } from "@tauri-apps/api/window";
@@ -14,24 +14,8 @@ export async function CreateMsgBox() {
 
   console.log("start create msgbox...");
 
-  // let webview = new WebviewWindow("msgbox", {
-  //     url: 'https://github.com/tauri-apps/tauri',
-  //     title: "消息通知",
-  //     width: messageBoxWindowWidth,
-  //     height: messageBoxWindowHeight,
-  //     skipTaskbar: true,
-  //     decorations: false,
-  //     center: false,
-  //     resizable: false,
-  //     alwaysOnTop: true,
-  //     focus: true,
-  //     x: window.screen.width + 50,
-  //     y: window.screen.height + 50,
-  //     visible: false
-  // })
-
-  const webview = new Webview(appWindow, "theUniqueLabel", {
-    url: "msg",
+  let webview = new WebviewWindow("msgbox", {
+    url: "http://localhost:1420/#/msg",
     title: "消息通知",
     width: messageBoxWindowWidth,
     height: messageBoxWindowHeight,
@@ -45,22 +29,6 @@ export async function CreateMsgBox() {
     y: window.screen.height + 50,
     visible: false,
   });
-
-  // const webview = new WebviewWindow("msgbox", {
-  //   url: "/msg", // 新窗口加载的页面
-  //   title: "消息通知",
-  //   width: 800,
-  //   height: 600,
-  //   skipTaskbar: true,
-  //   decorations: false,
-  //   center: false,
-  //   resizable: false,
-  //   alwaysOnTop: true,
-  //   focus: true,
-  //   x: window.screen.width + 50,
-  //   y: window.screen.height + 50,
-  //   visible: false,
-  // });
 
   console.log("webview----", webview);
 
