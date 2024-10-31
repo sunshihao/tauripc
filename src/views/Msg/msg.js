@@ -8,13 +8,37 @@ import { LogicalPosition } from "@tauri-apps/api/window";
 export let messageBoxWindowWidth = 280;
 export let messageBoxWindowHeight = 100;
 
+function getRatio() {
+  var ratio = 0;
+  var screen = window.screen;
+  var ua = navigator.userAgent.toLowerCase();
+
+  if (window.devicePixelRatio !== undefined) {
+    ratio = window.devicePixelRatio;
+  } else if (~ua.indexOf("msie")) {
+    if (screen.deviceXDPI && screen.logicalXDPI) {
+      ratio = screen.deviceXDPI / screen.logicalXDPI;
+    }
+  } else if (
+    window.outerWidth !== undefined &&
+    window.innerWidth !== undefined
+  ) {
+    ratio = window.outerWidth / window.innerWidth;
+  }
+
+  // if (ratio) {
+  //   ratio = Math.round(ratio * 100);
+  // }
+  return ratio;
+}
+
 // 闪烁通知
 export async function CreateMsgBox() {
   // const appWindow = new Window("msgbox");
 
   console.log("start create msgbox...");
 
-  console.log('window.screen.width~~~', window.screen)
+  console.log("window.screen.width~~~", window.screen);
 
   let webview = new WebviewWindow("msgbox", {
     url: "/msg",
@@ -27,10 +51,14 @@ export async function CreateMsgBox() {
     resizable: false,
     alwaysOnTop: true,
     focus: true,
-    x: window.screen.width + 50,
-    y: window.screen.height + 50,
+    x: 50,
+    y: 50,
     visible: false,
   });
+
+  const sysRatio = getRatio()
+
+  console.log("getRatiogetRatio----", sysRatio);
 
   console.log("webview----", webview);
 
@@ -44,8 +72,8 @@ export async function CreateMsgBox() {
   });
   await webview.listen("tauri://blur", async () => {
     console.log("msgbox blur");
-    // const win = await WebviewWindow.getByLabel("msgbox");
-    // await win.hide();
+    const win = await WebviewWindow.getByLabel("msgbox");
+    await win.hide();
   });
   await webview.listen("tauri://error", async (error) => {
     console.log("msgbox error!", error);
@@ -60,10 +88,12 @@ export async function CreateMsgBox() {
 
     let position = event.payload;
 
-    console.log('position---',  position)
-    console.log('position---11',  position.x - messageBoxWindowWidth / 2)
-    console.log('position---22',  window.screen.availHeight - messageBoxWindowHeight)
-
+    console.log("position---", position);
+    console.log("position---11", position.x - messageBoxWindowWidth / 2);
+    console.log(
+      "position---22",
+      window.screen.availHeight - messageBoxWindowHeight
+    );
 
     if (win) {
       await win.setAlwaysOnTop(true);
@@ -71,11 +101,11 @@ export async function CreateMsgBox() {
       // TODO
       await win.setPosition(
         new LogicalPosition(
-          position.x - messageBoxWindowWidth / 2,
+          position.x / 1.5 - messageBoxWindowWidth / 2,
           window.screen.availHeight - messageBoxWindowHeight
         )
       );
-      console.log('弹窗展示')
+      console.log("弹窗展示");
       await win.show();
     }
   });
