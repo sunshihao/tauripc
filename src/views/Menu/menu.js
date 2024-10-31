@@ -14,7 +14,7 @@ export async function CreateTraymenu() {
   console.log("---------------");
 
   let webview = new WebviewWindow("traymenu", {
-    url: "http://127.0.0.1:14420/#/menu",
+    url: "https://github.com/tauri-apps/tauri",
     title: "通知提醒",
     width: menuBoxWindowWidth,
     height: menuBoxWindowHeight,
@@ -66,8 +66,8 @@ export async function CreateTraymenu() {
   });
   await webview.listen("tauri://blur", async () => {
     console.log("traymenu blur");
-    const win = await WebviewWindow.getByLabel("traymenu");
-    await win.hide();
+    // const win = await WebviewWindow.getByLabel("traymenu");
+    // await win.hide();
   });
   await webview.listen("tauri://error", async (error) => {
     console.log("traymenu error!", error);

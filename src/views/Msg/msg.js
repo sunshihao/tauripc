@@ -14,8 +14,10 @@ export async function CreateMsgBox() {
 
   console.log("start create msgbox...");
 
+  console.log('window.screen.width~~~', window.screen)
+
   let webview = new WebviewWindow("msgbox", {
-    url: "/#/msg",
+    url: "/msg",
     title: "消息通知",
     width: messageBoxWindowWidth,
     height: messageBoxWindowHeight,
@@ -42,8 +44,8 @@ export async function CreateMsgBox() {
   });
   await webview.listen("tauri://blur", async () => {
     console.log("msgbox blur");
-    const win = await WebviewWindow.getByLabel("msgbox");
-    await win.hide();
+    // const win = await WebviewWindow.getByLabel("msgbox");
+    // await win.hide();
   });
   await webview.listen("tauri://error", async (error) => {
     console.log("msgbox error!", error);
@@ -57,15 +59,23 @@ export async function CreateMsgBox() {
     if (!win) return;
 
     let position = event.payload;
+
+    console.log('position---',  position)
+    console.log('position---11',  position.x - messageBoxWindowWidth / 2)
+    console.log('position---22',  window.screen.availHeight - messageBoxWindowHeight)
+
+
     if (win) {
       await win.setAlwaysOnTop(true);
       await win.setFocus();
+      // TODO
       await win.setPosition(
         new LogicalPosition(
           position.x - messageBoxWindowWidth / 2,
           window.screen.availHeight - messageBoxWindowHeight
         )
       );
+      console.log('弹窗展示')
       await win.show();
     }
   });

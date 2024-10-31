@@ -7,16 +7,9 @@
     "core:default",
     "shell:allow-open",
     "core:event:default",
-    "core:window:default",
+
     "core:menu:default",
     "core:resources:default",
-    "core:tray:default",
-    "core:window:allow-set-title",
-    "core:webview:allow-create-webview-window",
-    "core:window:allow-set-always-on-top",
-    "core:window:allow-hide",
-    "core:window:allow-set-focus",
-    "core:window:allow-set-position",
-    "core:window:allow-show"
+    "core:tray:default"
   ]
 }
