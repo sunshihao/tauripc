@@ -1,20 +1,21 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "金投",
+  "productName": "Jintou",
   "version": "0.1.0",
   "identifier": "com.xjjt.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:9085",
     "beforeBuildCommand": "pnpm build",
-    "frontendDist": "../dist"
+    "frontendDist": "../workItem"
   },
   "app": {
     "windows": [
       {
-        "title": "金投",
+        "title": "JinTou",
         "width": 1000,
-        "height": 800
+        "height": 800,
+        "url": "http://172.27.60.3:9082/#/login?queryParam=client_id%3DworkItem%26response_type%3Dcode"
       }
     ],
     "security": {
