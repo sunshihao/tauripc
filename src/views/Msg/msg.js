@@ -41,7 +41,7 @@ export async function CreateMsgBox() {
   console.log("window.screen.width~~~", window.screen);
 
   let webview = new WebviewWindow("msgbox", {
-    url: "/msg",
+    url: "/#/msg",
     title: "消息通知",
     width: messageBoxWindowWidth,
     height: messageBoxWindowHeight,

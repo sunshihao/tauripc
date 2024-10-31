@@ -41,7 +41,7 @@ const flashTray = async (bool) => {
 
 onMounted(() => {
   // 托盘右键菜单创建
-  // CreateTraymenu();
+  CreateTraymenu();
   CreateMsgBox();
 });
 </script>

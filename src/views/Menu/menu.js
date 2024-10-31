@@ -6,15 +6,37 @@ import { TrayIcon } from "@tauri-apps/api/tray";
 import { Menu } from "@tauri-apps/api/menu";
 
 export let menuBoxWindowWidth = 150;
-export let menuBoxWindowHeight = JSON.parse(localStorage.getItem("logged"))
-  ? 320
-  : 45;
+export let menuBoxWindowHeight = 320;
+
+function getRatio() {
+  var ratio = 0;
+  var screen = window.screen;
+  var ua = navigator.userAgent.toLowerCase();
+
+  if (window.devicePixelRatio !== undefined) {
+    ratio = window.devicePixelRatio;
+  } else if (~ua.indexOf("msie")) {
+    if (screen.deviceXDPI && screen.logicalXDPI) {
+      ratio = screen.deviceXDPI / screen.logicalXDPI;
+    }
+  } else if (
+    window.outerWidth !== undefined &&
+    window.innerWidth !== undefined
+  ) {
+    ratio = window.outerWidth / window.innerWidth;
+  }
+
+  // if (ratio) {
+  //   ratio = Math.round(ratio * 100);
+  // }
+  return ratio;
+}
 
 export async function CreateTraymenu() {
   console.log("---------------");
 
   let webview = new WebviewWindow("traymenu", {
-    url: "https://github.com/tauri-apps/tauri",
+    url: "/#/menu",
     title: "通知提醒",
     width: menuBoxWindowWidth,
     height: menuBoxWindowHeight,
@@ -66,8 +88,8 @@ export async function CreateTraymenu() {
   });
   await webview.listen("tauri://blur", async () => {
     console.log("traymenu blur");
-    // const win = await WebviewWindow.getByLabel("traymenu");
-    // await win.hide();
+    const win = await WebviewWindow.getByLabel("traymenu");
+    await win.hide();
   });
   await webview.listen("tauri://error", async (error) => {
     console.log("traymenu error!", error);
@@ -85,7 +107,7 @@ export async function CreateTraymenu() {
       await win.setAlwaysOnTop(true);
       await win.setFocus();
       await win.setPosition(
-        new LogicalPosition(position.x, position.y - menuBoxWindowHeight)
+        new LogicalPosition(position.x / getRatio(), position.y / getRatio() - menuBoxWindowHeight)
       );
       await win.show();
     }
@@ -94,6 +116,5 @@ export async function CreateTraymenu() {
   // 监听托盘左键菜单事件
   listen("tray_mouseleftclick", async (event) => {
     console.log("托盘图标左键点击", event);
-
   });
 }

@@ -52,9 +52,9 @@
     <div class="traymenu">
         <p class="item">😍 我在线上</p>
         <p class="item">😎 隐身</p>
-        <p class="item">😏 离开</p>
-        <p class="item">😱 忙碌</p>
-        <p class="item">关闭所有声音</p>
+        <!-- <p class="item">😏 离开</p>
+        <p class="item">😱 忙碌</p> -->
+        <!-- <p class="item">关闭所有声音</p> -->
         <p class="item" @click="flashTray(true)">开启图标闪烁</p>
         <p class="item" @click="flashTray(false)">关闭图标闪烁</p>
         <p class="item" @click="handleMainShow">👀 打开主面板</p>
